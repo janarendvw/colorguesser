@@ -56,7 +56,7 @@ function HexInput() {
   };
 
   return (
-    <div className="flex gap-px bg-white/20 w-fit rounded-md overflow-clip font-semibold">
+    <div className="flex gap-0.5 bg-white/20 w-fit rounded-md overflow-clip font-semibold">
       <div className="w-16 h-full flex items-center justify-center font-bold text-4xl text-center bg-black text-white outline-none rounded-l-md">
         #
       </div>

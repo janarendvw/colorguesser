@@ -1,17 +1,16 @@
-import "./App.css";
-import HexInput from "./components/color-input/HexInput";
-import { useStore } from "./stores/app-store";
-import ScoreCard from "./components/ScoreCard";
-import Highscore from "./components/Highscore";
+import Highscore from "../components/Highscore";
+import ScoreCard from "../components/ScoreCard";
+import HexInput from "../components/color-input/HexInput";
+import { useStore } from "../stores/app-store";
 
-function App() {
-  const { attempts, resetAttempts } = useStore();
-  const {generatedColor, guesssedColor} = useStore();
-
-
+function HexGuesser() {
+    const { attempts, resetAttempts } = useStore();
+    const {generatedColor, guesssedColor} = useStore();
+  
+  
   return (
     <>
-   <Highscore />
+    <Highscore />
       <main
         className="w-screen h-screen flex items-center justify-center flex-col"
         style={{ background: generatedColor }}
@@ -53,9 +52,8 @@ function App() {
           <ScoreCard />
           </div>
         </div>
-      </main>
-    </>
-  );
+      </main></>
+  )
 }
 
-export default App;
+export default HexGuesser
