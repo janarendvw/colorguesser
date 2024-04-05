@@ -1,4 +1,4 @@
-export default function validateColor(generatedColor: string, guessedColor: string){
+export default function validateHex(generatedColor: string, guessedColor: string){
     const splicedGeneratedColor =  {
         r: parseInt(generatedColor.slice(1,3), 16),
         g: parseInt(generatedColor.slice(3,5), 16),
