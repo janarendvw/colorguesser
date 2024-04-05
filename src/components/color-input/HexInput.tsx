@@ -60,7 +60,7 @@ function HexInput() {
       <div className="w-16 h-full flex items-center justify-center font-bold text-4xl text-center bg-black text-white outline-none rounded-l-md">
         #
       </div>
-      {inputRefs.current.map((inputRef, index) => (
+      {inputRefs.current.map((_inputRef, index) => (
         <Input
           pattern="[0-9a-fA-F]"
           key={index}
