@@ -16,9 +16,27 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const HslguesserLazyImport = createFileRoute('/hslguesser')()
+const HexguesserLazyImport = createFileRoute('/hexguesser')()
+const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const HslguesserLazyRoute = HslguesserLazyImport.update({
+  path: '/hslguesser',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/hslguesser.lazy').then((d) => d.Route))
+
+const HexguesserLazyRoute = HexguesserLazyImport.update({
+  path: '/hexguesser',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/hexguesser.lazy').then((d) => d.Route))
+
+const AboutLazyRoute = AboutLazyImport.update({
+  path: '/about',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -33,11 +51,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/about': {
+      preLoaderRoute: typeof AboutLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/hexguesser': {
+      preLoaderRoute: typeof HexguesserLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/hslguesser': {
+      preLoaderRoute: typeof HslguesserLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([IndexLazyRoute])
+export const routeTree = rootRoute.addChildren([
+  IndexLazyRoute,
+  AboutLazyRoute,
+  HexguesserLazyRoute,
+  HslguesserLazyRoute,
+])
 
 /* prettier-ignore-end */

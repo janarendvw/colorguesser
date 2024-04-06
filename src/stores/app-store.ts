@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import generateColor from "../utils/color-generator";
 
 type Attempt = {
     score: number;
@@ -23,7 +22,7 @@ type Store = {
 };
 
 export const useStore = create<Store>((set) => ({
-    generatedColor: generateColor(),
+    generatedColor: "",
     guesssedColor: Array(6).fill(null) as (string | null)[],
     attempts: [],
     highScore: localStorage.getItem("highscore") ? parseInt(localStorage.getItem("highscore") as string) : 0,

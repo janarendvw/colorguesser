@@ -1,8 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useStore } from "../../stores/app-store";
+import ColorGenerator from "../../utils/color-generator2";
 import Input from "./Input";
-import validateHex from "../../utils/color-validator";
-import generateColor from "../../utils/color-generator";
 
 function HexInput() {
   const {
@@ -22,6 +21,11 @@ function HexInput() {
     inputRefs.current && inputRefs?.current[caretPosition].focus();
     console.log(guesssedColor);
   }, [caretPosition, guesssedColor]);
+
+  useLayoutEffect(() => {
+    setGeneratedColor(ColorGenerator.generateHex());
+  }
+  , [setGeneratedColor]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace") {
@@ -45,13 +49,13 @@ function HexInput() {
       if (guesssedColor.includes(null)) return;
       const hex = guesssedColor.join("");
       addAttempt({
-        score: validateHex(generatedColor, '#' + hex),
+        score: ColorGenerator.validateHex(generatedColor, '#' + hex),
         guesssedColor: '#' + hex,
         generatedColor,
       });
       setCaretPosition(0);
       resetGuesssedColor();
-      setGeneratedColor(generateColor());
+      setGeneratedColor(ColorGenerator.generateHex());
     }
   };
 
@@ -69,7 +73,7 @@ function HexInput() {
           }}
           type="text"
           placeholder="F"
-          maxLength={1}
+          inputLength={1}
           onKeyDown={(e) => handleKeyDown(e)}
           onChange={() => ""}
           value={guesssedColor[index] || ""}
