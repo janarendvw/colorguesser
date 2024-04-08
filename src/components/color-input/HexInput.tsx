@@ -1,38 +1,36 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { useStore } from "../../stores/app-store";
-import ColorGenerator from "../../utils/color-generator2";
+import { ColorGenerator, ColorValidator } from "../../utils/ColorFabric";
 import Input from "./Input";
 
 function HexInput() {
   const {
-    guesssedColor,
+    guessedHexColor,
     generatedColor,
     addAttempt,
     caretPosition,
     setCaretPosition,
-    updateGuesssedColor,
+    updateGuessedHexColor,
     setGeneratedColor,
-    resetGuesssedColor,
+    resetGuessedHexColor,
   } = useStore();
   const inputLength = 6;
   const inputRefs = useRef<HTMLInputElement[]>(Array(inputLength).fill(null));
 
   useEffect(() => {
     inputRefs.current && inputRefs?.current[caretPosition].focus();
-    console.log(guesssedColor);
-  }, [caretPosition, guesssedColor]);
+  }, [caretPosition, guessedHexColor]);
 
   useLayoutEffect(() => {
     setGeneratedColor(ColorGenerator.generateHex());
-  }
-  , [setGeneratedColor]);
+  }, [setGeneratedColor]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace") {
-      if (guesssedColor[caretPosition] === null) {
-        updateGuesssedColor(caretPosition - 1, null);
+      if (guessedHexColor[caretPosition] === null) {
+        updateGuessedHexColor(caretPosition - 1, null);
       }
-      updateGuesssedColor(caretPosition, null);
+      updateGuessedHexColor(caretPosition, null);
       caretPosition > 0 && setCaretPosition(caretPosition - 1);
     }
     if (e.key === "ArrowRight" && caretPosition < inputLength - 1) {
@@ -42,19 +40,19 @@ function HexInput() {
       setCaretPosition(caretPosition - 1);
     }
     if (e.key.match(/^[0-9a-fA-F]$/)) {
-      updateGuesssedColor(caretPosition, e.key.toString().toUpperCase());
+      updateGuessedHexColor(caretPosition, e.key.toString().toUpperCase());
       caretPosition < inputLength - 1 && setCaretPosition(caretPosition + 1);
     }
     if (e.key === "Enter") {
-      if (guesssedColor.includes(null)) return;
-      const hex = guesssedColor.join("");
+      if (guessedHexColor.includes(null)) return;
+      const hex = guessedHexColor.join("");
       addAttempt({
-        score: ColorGenerator.validateHex(generatedColor, '#' + hex),
-        guesssedColor: '#' + hex,
+        score: ColorValidator.validateHex(generatedColor, "#" + hex),
+        guessedColor: "#" + hex,
         generatedColor,
       });
       setCaretPosition(0);
-      resetGuesssedColor();
+      resetGuessedHexColor();
       setGeneratedColor(ColorGenerator.generateHex());
     }
   };
@@ -76,7 +74,7 @@ function HexInput() {
           inputLength={1}
           onKeyDown={(e) => handleKeyDown(e)}
           onChange={() => ""}
-          value={guesssedColor[index] || ""}
+          value={guessedHexColor[index] || ""}
           onFocus={() => {
             setCaretPosition(index);
           }}

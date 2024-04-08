@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import ColorGenerator from '../utils/color-generator2'
+import { ColorValidator} from '../utils/ColorFabric'
 
 export const Route = createLazyFileRoute('/about')({
   component: About,
@@ -7,6 +7,6 @@ export const Route = createLazyFileRoute('/about')({
 
 function About() {
 
-  const points = ColorGenerator.validateHex('#ff0000', '#ff0000')
+  const points = ColorValidator.validateHex('#ff0000', '#ff0000')
   return <div className="p-2">{points}</div>
 }

@@ -14,6 +14,27 @@ function ScoreCard() {
     }
   }, [attempts, setHighScore]);
 
+  const returnEmoji = (score: number) => {
+    switch (true) {
+      case score > 990:
+        return "🎉";
+      case score > 950:
+        return "🥳";
+      case score > 900:
+        return "🤩";
+      case score > 800:
+        return "🔥";
+      case score > 600:
+        return "😎";
+      case score > 400:
+        return "😊";
+      case score > 200:
+        return "😕";
+      default:
+        return "😭";
+    }
+  };
+
   return (
     <>
       {attempts.length > 0 && (
@@ -26,15 +47,15 @@ function ScoreCard() {
               <p className="text-white font-semibold">
                 <span className="text-2xl">
                   +{attempt.score}
-                  {attempt.score > 450 && "🔥"}
+                  {returnEmoji(attempt.score)}
                 </span>
               </p>
               <div className="flex text-white font-mono">
                 <div
                   className="p-2 rounded-l-md"
-                  style={{ background: attempt.guesssedColor }}
+                  style={{ background: attempt.guessedColor }}
                 >
-                  {attempt.guesssedColor}
+                  {attempt.guessedColor}
                 </div>
                 <div
                   className="p-2 rounded-r-md"
